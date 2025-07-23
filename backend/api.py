@@ -1,0 +1,24 @@
+from fastapi import FastAPI
+from fastapi import UploadFile # allows to receive the eos.zip file thorugh React
+from fastapi import Form # specify that mass comes from the input (and not querystring or JSON)
+from fastapi.responses import JSONResponse # allows to personalize the error message
+from fastapi.middleware.cors import CORSMiddleware # allows the frontend to made requests to the API
+from backend.script import extract_radius
+
+app= FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://eos-extractor.onrender.com",'http://localhost:3000'], 
+    allow_credentials=True,
+    allow_methods=["POST"],
+    allow_headers=["Content-Type"], 
+)
+
+@app.post("/get_radius")
+async def get_radius(file: UploadFile, mass: float = Form(required=True)):
+    try:
+        radius = extract_radius(file.file, mass)
+        return {"radius": round(float(radius), 2)}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
