@@ -15,8 +15,8 @@ app= FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://eos-extractor-frontend.onrender.com",'http://localhost:3000'], 
-    allow_credentials=True,
-    allow_methods=["POST"],
+    allow_credentials=False,
+    allow_methods=["POST","OPTIONS"],
     allow_headers=["Content-Type"], 
 )
 
