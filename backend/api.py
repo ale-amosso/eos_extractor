@@ -1,9 +1,14 @@
+import sys
+import os
 from fastapi import FastAPI
 from fastapi import UploadFile # allows to receive the eos.zip file thorugh React
 from fastapi import Form # specify that mass comes from the input (and not querystring or JSON)
 from fastapi.responses import JSONResponse # allows to personalize the error message
 from fastapi.middleware.cors import CORSMiddleware # allows the frontend to made requests to the API
-from backend.script import extract_radius
+
+current_dir = os.path.dirname(os.path.abspath(__file__)) # Add directory for managing both local and production deploy
+sys.path.append(current_dir)
+from script import extract_radius
 
 app= FastAPI()
 
