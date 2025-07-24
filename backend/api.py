@@ -45,7 +45,7 @@ async def main():
 
 @app.options("/{rest_of_path:path}")
 async def preflight(rest_of_path: str, request: Request):
-    origin = request.headers.get("origin")
+    origin = request.headers.get("origin") or "*"
     headers = {
         "Access-Control-Allow-Origin": origin,
         "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
