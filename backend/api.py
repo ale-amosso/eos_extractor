@@ -11,11 +11,16 @@ sys.path.append(current_dir)
 from script import extract_radius
 
 app= FastAPI()
+origins = [
+    "http://localhost:3000",
+    "https://eos-extractor-frontend.onrender.com/"
+]
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"^(https://eos-extractor-frontend\.onrender\.com|http://localhost:3000)$",
-    allow_credentials=False,
+    allow_origin= origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -27,3 +32,7 @@ async def get_radius(file: UploadFile, mass: float = Form(required=True)):
         return {"radius": round(float(radius), 2)}
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
+@app.get("/")
+async def main():
+    return {"message": "Hello World"}
