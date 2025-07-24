@@ -48,6 +48,7 @@ function App() {
           const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           setUploadProgress(percent);
         },
+         withCredentials: false
       });
 
       const data = response.data;
