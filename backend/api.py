@@ -41,3 +41,14 @@ async def get_radius(file: UploadFile, mass: float = Form(required=True)):
 @app.get("/")
 async def main():
     return {"message": "Hello World"}
+
+
+@app.options("/{rest_of_path:path}")
+async def preflight(rest_of_path: str, request: Request):
+    origin = request.headers.get("origin")
+    headers = {
+        "Access-Control-Allow-Origin": origin,
+        "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+        "Access-Control-Allow-Headers": request.headers.get("access-control-request-headers", "*"),
+    }
+    return Response(status_code=200, headers=headers)
