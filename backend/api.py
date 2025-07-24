@@ -27,15 +27,3 @@ async def get_radius(file: UploadFile, mass: float = Form(required=True)):
         return {"radius": round(float(radius), 2)}
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
-
-        
-
-@app.options("/get_radius")
-async def cors_preflight(request: Request):
-    origin = request.headers.get("origin")
-    response = Response()
-    if origin in ["https://eos-extractor-frontend.onrender.com", "http://localhost:3000"]:
-        response.headers["Access-Control-Allow-Origin"] = origin
-        response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
-        response.headers["Access-Control-Allow-Headers"] = "*"
-    return response
