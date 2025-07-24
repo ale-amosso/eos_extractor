@@ -14,7 +14,7 @@ app= FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://eos-extractor-frontend.onrender.com",'http://localhost:3000'], 
+    allow_origin_regex=r"^(https://eos-extractor-frontend\.onrender\.com|http://localhost:3000)$",
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"], 
@@ -27,3 +27,5 @@ async def get_radius(file: UploadFile, mass: float = Form(required=True)):
         return {"radius": round(float(radius), 2)}
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
+        
